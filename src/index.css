@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+@theme {
+  --color-premium-gold: #D4AF37;
+  --color-premium-cream: #FFFDD0;
+  --color-premium-dark: #1A1A1A;
+
+  --font-serif: "Playfair Display", serif;
+  --font-sans: "Inter", sans-serif;
+}
+
+@layer base {
+  body {
+    @apply m-0 min-h-screen bg-premium-cream text-premium-dark font-sans;
+    display: block;
+  }
+}
