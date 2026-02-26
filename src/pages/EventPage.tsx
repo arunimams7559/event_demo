@@ -66,7 +66,7 @@ export default function EventPage() {
                         transition={{ type: "spring", damping: 10, stiffness: 100 }}
                         className="mb-10 inline-block relative"
                     >
-                        <div className="absolute inset-0 bg-premium-gold/10 blur-2xl rounded-full" />
+                        <div className="absolute inset-0 bg-premium-goldblur-2xl rounded-full" />
                         <Heart className={`w-20 h-20 ${theme.accent} relative z-10 fill-current opacity-80`} />
                     </motion.div>
 
