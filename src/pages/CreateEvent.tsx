@@ -1,8 +1,9 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Heart, FileVideo, Type, X, Copy, Check, MessageCircle, ExternalLink } from 'lucide-react';
+import { Heart, FileVideo, Type, X, Copy, Check, MessageCircle, ExternalLink, Share2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { encodeEventData } from '../utils/urlHelper';
+import CustomCalendar from '../components/CustomCalendar';
 
 const TEMPLATES = [
     { id: 'classic', name: 'Classic Gold', color: 'bg-[#D4AF37]', textColor: 'text-[#D4AF37]' },
@@ -28,10 +29,27 @@ export default function CreateEvent() {
     const [videoFile, setVideoFile] = useState<File | null>(null);
     const [isSharing, setIsSharing] = useState(false);
     const [showShareModal, setShowShareModal] = useState(false);
+    const [isCalendarOpen, setIsCalendarOpen] = useState(false);
     const [generatedUrl, setGeneratedUrl] = useState('');
     const [copied, setCopied] = useState(false);
 
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const calendarRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (calendarRef.current && !calendarRef.current.contains(event.target as Node)) {
+                setIsCalendarOpen(false);
+            }
+        };
+
+        if (isCalendarOpen) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isCalendarOpen]);
 
     const toggleGift = (id: string) => {
         setSelectedGifts(prev =>
@@ -59,25 +77,6 @@ export default function CreateEvent() {
             const encoded = encodeEventData(data);
             const url = `${window.location.origin}/intro/${encoded}`;
             setGeneratedUrl(url);
-
-            if (navigator.share) {
-                try {
-                    const shareData: ShareData = {
-                        title: eventName || 'Wedding Event',
-                        text: `Join ${hostName}'s wedding invitation! Check out the story:`,
-                        url: url,
-                    };
-
-                    if (videoFile && navigator.canShare && navigator.canShare({ files: [videoFile] })) {
-                        shareData.files = [videoFile];
-                    }
-
-                    await navigator.share(shareData);
-                    return;
-                } catch (err) {
-                    console.log("Native share failed, showing modal...");
-                }
-            }
 
             setShowShareModal(true);
         } catch (error) {
@@ -140,14 +139,37 @@ export default function CreateEvent() {
                                             className="w-full px-5 py-4 rounded-2xl bg-gray-50 border-transparent focus:bg-white focus:border-premium-gold focus:ring-4 focus:ring-premium-gold/5 outline-none transition-all text-gray-800 font-medium"
                                         />
                                     </div>
-                                    <div>
-                                        <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-2 ml-1">Pick Your Date</label>
-                                        <input
-                                            type="date"
-                                            value={date}
-                                            onChange={(e) => setDate(e.target.value)}
-                                            className="w-full px-5 py-4 rounded-2xl bg-gray-50 border-transparent focus:bg-white focus:border-premium-gold focus:ring-4 focus:ring-premium-gold/5 outline-none transition-all text-gray-800 font-medium"
-                                        />
+                                    <div className="md:col-span-2 relative">
+                                        <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-4 ml-1">Pick Your Date</label>
+                                        <div
+                                            onClick={() => setIsCalendarOpen(!isCalendarOpen)}
+                                            className="w-full px-5 py-4 rounded-2xl bg-gray-50 border-2 border-transparent hover:border-premium-gold/30 cursor-pointer transition-all flex items-center justify-between group"
+                                        >
+                                            <span className={`font-medium ${date ? 'text-gray-800' : 'text-gray-400'}`}>
+                                                {date ? new Date(date).toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' }) : 'Select Date'}
+                                            </span>
+                                            <Heart className={`w-4 h-4 transition-colors ${date ? 'text-premium-gold fill-current' : 'text-gray-300 group-hover:text-premium-gold/50'}`} />
+                                        </div>
+
+                                        <AnimatePresence>
+                                            {isCalendarOpen && (
+                                                <motion.div
+                                                    ref={calendarRef}
+                                                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                                                    className="absolute z-50 left-0 right-0 mt-2 filter drop-shadow-2xl"
+                                                >
+                                                    <CustomCalendar
+                                                        selectedDate={date}
+                                                        onDateSelect={(newDate) => {
+                                                            setDate(newDate);
+                                                            setIsCalendarOpen(false);
+                                                        }}
+                                                    />
+                                                </motion.div>
+                                            )}
+                                        </AnimatePresence>
                                     </div>
                                 </div>
                             </div>
@@ -293,6 +315,25 @@ export default function CreateEvent() {
                                     <ExternalLink className="w-5 h-5" />
                                     Preview
                                 </button>
+                                {navigator.share && (
+                                    <button
+                                        onClick={async () => {
+                                            try {
+                                                await navigator.share({
+                                                    title: eventName || 'Wedding Event',
+                                                    text: `Join ${hostName}'s wedding invitation! Check out the story:`,
+                                                    url: generatedUrl,
+                                                });
+                                            } catch (err) {
+                                                console.log("Native share cancelled or failed");
+                                            }
+                                        }}
+                                        className="col-span-2 flex items-center justify-center gap-2 p-4 rounded-2xl bg-gray-50 text-gray-500 font-bold text-sm hover:bg-gray-100 transition-colors"
+                                    >
+                                        <Share2 className="w-4 h-4" />
+                                        Other Share Options
+                                    </button>
+                                )}
                             </div>
                         </motion.div>
                     </div>
