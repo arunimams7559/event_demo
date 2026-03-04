@@ -93,20 +93,20 @@ export default function CustomCalendar({ selectedDate, onDateSelect }: CustomCal
     };
 
     return (
-        <div className="w-full bg-white rounded-3xl p-6 shadow-xl border border-premium-gold/10 overflow-hidden">
+        <div className="w-full bg-white rounded-[2.5rem] p-8 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] border border-premium-gold/5 overflow-hidden">
             <div className="flex items-center justify-between mb-8">
                 <button
                     onClick={handlePrevMonth}
-                    className="p-2 hover:bg-gray-50 rounded-full transition-colors text-premium-gold"
+                    className="p-3 hover:bg-premium-gold/5 rounded-2xl transition-all text-premium-gold hover:scale-110 active:scale-95"
                 >
                     <ChevronLeft className="w-5 h-5" />
                 </button>
                 <h4 className="text-xl font-serif font-bold text-premium-dark tracking-wide">
-                    {monthNames[month]} {year}
+                    {monthNames[month]} <span className="text-premium-gold font-light">{year}</span>
                 </h4>
                 <button
                     onClick={handleNextMonth}
-                    className="p-2 hover:bg-gray-50 rounded-full transition-colors text-premium-gold"
+                    className="p-3 hover:bg-premium-gold/5 rounded-2xl transition-all text-premium-gold hover:scale-110 active:scale-95"
                 >
                     <ChevronRight className="w-5 h-5" />
                 </button>

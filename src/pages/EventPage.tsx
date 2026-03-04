@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Calendar, Gift, Heart, ArrowLeft, User, Quote } from 'lucide-react';
+import { Calendar, Gift, ArrowLeft, User, Quote } from 'lucide-react';
 import { decodeEventData, type EventData } from '../utils/urlHelper';
+import Logo from '../components/Logo';
 
 const GIFTS_MAP: Record<string, { name: string, icon: string }> = {
     watch: { name: 'Luxury Watch', icon: '⌚' },
@@ -61,13 +62,11 @@ export default function EventPage() {
             >
                 <header className="text-center mb-24 relative">
                     <motion.div
-                        initial={{ scale: 0, rotate: -45 }}
-                        animate={{ scale: 1, rotate: 0 }}
-                        transition={{ type: "spring", damping: 10, stiffness: 100 }}
-                        className="mb-10 inline-block relative"
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="mb-12 inline-block relative"
                     >
-                        <div className="absolute inset-0 bg-premium-goldblur-2xl rounded-full" />
-                        <Heart className={`w-20 h-20 ${theme.accent} relative z-10 fill-current opacity-80`} />
+                        <Logo className="scale-125" />
                     </motion.div>
 
                     <h2 className="text-xs uppercase tracking-[0.5em] font-bold mb-6 opacity-40">You are cordially invited to</h2>
@@ -126,7 +125,11 @@ export default function EventPage() {
                     </section>
                 </main>
 
-                <footer className="mt-32 text-center pb-12">
+                <footer className="mt-32 text-center pb-12 flex flex-col items-center gap-12">
+                    <div className="opacity-30 hover:opacity-100 transition-opacity">
+                        <Logo showText className="scale-75" />
+                    </div>
+
                     <Link
                         to="/create"
                         className="group inline-flex items-center gap-3 py-4 px-8 bg-black/5 hover:bg-black/10 rounded-full transition-all"

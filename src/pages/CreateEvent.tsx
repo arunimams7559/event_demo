@@ -4,6 +4,7 @@ import { Heart, FileVideo, Type, X, Copy, Check, MessageCircle, ExternalLink, Sh
 import { motion, AnimatePresence } from 'framer-motion';
 import { encodeEventData } from '../utils/urlHelper';
 import CustomCalendar from '../components/CustomCalendar';
+import Logo from '../components/Logo';
 
 const TEMPLATES = [
     { id: 'classic', name: 'Classic Gold', color: 'bg-[#D4AF37]', textColor: 'text-[#D4AF37]' },
@@ -97,68 +98,103 @@ export default function CreateEvent() {
             <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="max-w-5xl mx-auto bg-white rounded-[3rem] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.1)] overflow-hidden border border-premium-gold/10"
+                className="max-w-6xl mx-auto bg-white rounded-[3.5rem] shadow-[0_40px_100px_-20px_rgba(0,0,0,0.15)] overflow-hidden border border-premium-gold/5"
             >
-                <div className="md:flex">
-                    <div className="md:w-1/3 bg-premium-dark p-12 text-white flex flex-col justify-between relative overflow-hidden">
-                        <div className="absolute top-0 right-0 w-64 h-64 bg-premium-gold/10 rounded-full -mr-32 -mt-32 blur-3xl" />
-                        <div className="z-10">
-                            <Heart className="w-10 h-10 text-premium-gold mb-8" />
-                            <h2 className="text-3xl font-serif mb-4 leading-tight">Craft Your Special Moment</h2>
-                            <p className="text-gray-400 font-light leading-relaxed">
+                <div className="md:flex min-h-[800px]">
+                    {/* Enhanced Sidebar */}
+                    <div className="md:w-[35%] bg-premium-dark p-16 text-white flex flex-col justify-between relative overflow-hidden">
+                        {/* Decorative Background Elements */}
+                        <div className="absolute -top-24 -right-24 w-96 h-96 bg-premium-gold/15 rounded-full blur-[100px] animate-pulse" />
+                        <div className="absolute -bottom-24 -left-24 w-80 h-80 bg-white/5 rounded-full blur-[80px]" />
+
+                        {/* Floating Circles */}
+                        <div className="absolute top-1/4 left-1/4 w-4 h-4 rounded-full bg-premium-gold/20 animate-float translate-x-4 opacity-40" />
+                        <div className="absolute bottom-1/3 right-1/4 w-2 h-2 rounded-full bg-white/20 animate-float delay-700 opacity-30" />
+
+                        <div className="z-10 relative">
+                            <Logo dark className="mb-12" />
+
+                            <h2 className="text-4xl lg:text-5xl font-serif mb-6 leading-[1.1] tracking-tight">
+                                Your Special <br />
+                                <span className="text-premium-gold italic">Lumiere</span> Moment
+                            </h2>
+
+                            <div className="w-12 h-1 bg-premium-gold/30 mb-8 rounded-full" />
+
+                            <p className="text-gray-400 text-lg font-light leading-relaxed max-w-[280px]">
                                 Design a personalized experience for your guests with a custom video intro and elegant gift registry.
                             </p>
                         </div>
+
+                        <div className="z-10 pt-12">
+                            <div className="glass-dark p-6 rounded-4xl border-white/10">
+                                <div className="flex -space-x-3 mb-4">
+                                    {[1, 2, 3].map(i => (
+                                        <div key={i} className="w-10 h-10 rounded-full border-2 border-premium-dark bg-premium-gold/20 backdrop-blur-sm" />
+                                    ))}
+                                    <div className="w-10 h-10 rounded-full border-2 border-premium-dark bg-white/10 backdrop-blur-sm flex items-center justify-center text-[10px] font-bold">
+                                        +50
+                                    </div>
+                                </div>
+                                <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-premium-gold/80">Trusted by modern couples</p>
+                            </div>
+                        </div>
                     </div>
 
-                    <div className="md:w-2/3 p-8 md:p-16">
-                        <div className="grid md:grid-cols-2 gap-8">
-                            <div className="space-y-6">
-                                <h3 className="text-xl font-serif text-premium-dark flex items-center gap-2">
-                                    <Type className="w-5 h-5 text-premium-gold" />
-                                    Event Basics
-                                </h3>
-                                <div className="space-y-4">
-                                    <div>
-                                        <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-2 ml-1">Event Name</label>
+                    {/* Main Form Section */}
+                    <div className="md:w-[65%] p-10 md:p-20 bg-gray-50/30">
+                        <div className="grid md:grid-cols-2 gap-12">
+                            <div className="space-y-10">
+                                <header className="flex items-center gap-4">
+                                    <div className="w-10 h-10 rounded-xl bg-premium-gold/10 flex items-center justify-center">
+                                        <Type className="w-5 h-5 text-premium-gold" />
+                                    </div>
+                                    <h3 className="text-2xl font-serif text-premium-dark">Event Basics</h3>
+                                </header>
+
+                                <div className="space-y-8">
+                                    <div className="group">
+                                        <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-3 ml-1 transition-colors group-focus-within:text-premium-gold">Event Name</label>
                                         <input
                                             type="text"
                                             value={eventName}
                                             onChange={(e) => setEventName(e.target.value)}
-                                            placeholder="e.g. Rahul & Priya's Wedding"
-                                            className="w-full px-5 py-4 rounded-2xl bg-gray-50 border-transparent focus:bg-white focus:border-premium-gold focus:ring-4 focus:ring-premium-gold/5 outline-none transition-all text-gray-800 font-medium"
+                                            placeholder="Rahul & Priya's Wedding"
+                                            className="w-full px-6 py-5 rounded-2xl bg-white border border-gray-100 shadow-sm focus:border-premium-gold/50 focus:ring-8 focus:ring-premium-gold/5 outline-none transition-all text-gray-800 font-medium placeholder:text-gray-300"
                                         />
                                     </div>
-                                    <div>
-                                        <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-2 ml-1">Event Hoster</label>
+                                    <div className="group">
+                                        <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-3 ml-1 transition-colors group-focus-within:text-premium-gold">Event Hoster</label>
                                         <input
                                             type="text"
                                             value={hostName}
                                             onChange={(e) => setHostName(e.target.value)}
                                             placeholder="Your Name"
-                                            className="w-full px-5 py-4 rounded-2xl bg-gray-50 border-transparent focus:bg-white focus:border-premium-gold focus:ring-4 focus:ring-premium-gold/5 outline-none transition-all text-gray-800 font-medium"
+                                            className="w-full px-6 py-5 rounded-2xl bg-white border border-gray-100 shadow-sm focus:border-premium-gold/50 focus:ring-8 focus:ring-premium-gold/5 outline-none transition-all text-gray-800 font-medium placeholder:text-gray-300"
                                         />
                                     </div>
-                                    <div className="md:col-span-2 relative">
-                                        <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-4 ml-1">Pick Your Date</label>
+                                    <div className="md:col-span-2 relative group">
+                                        <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-3 ml-1 transition-colors group-focus-within:text-premium-gold">Pick Your Date</label>
                                         <div
                                             onClick={() => setIsCalendarOpen(!isCalendarOpen)}
-                                            className="w-full px-5 py-4 rounded-2xl bg-gray-50 border-2 border-transparent hover:border-premium-gold/30 cursor-pointer transition-all flex items-center justify-between group"
+                                            className="w-full px-6 py-5 rounded-2xl bg-white border border-gray-100 shadow-sm hover:border-premium-gold/30 cursor-pointer transition-all flex items-center justify-between"
                                         >
-                                            <span className={`font-medium ${date ? 'text-gray-800' : 'text-gray-400'}`}>
+                                            <span className={`font-medium ${date ? 'text-gray-800' : 'text-gray-300'}`}>
                                                 {date ? new Date(date).toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' }) : 'Select Date'}
                                             </span>
-                                            <Heart className={`w-4 h-4 transition-colors ${date ? 'text-premium-gold fill-current' : 'text-gray-300 group-hover:text-premium-gold/50'}`} />
+                                            <div className={`p-2 rounded-lg transition-colors ${date ? 'bg-premium-gold/10 text-premium-gold' : 'bg-gray-50 text-gray-300'}`}>
+                                                <Heart className="w-4 h-4 fill-current" />
+                                            </div>
                                         </div>
 
                                         <AnimatePresence>
                                             {isCalendarOpen && (
                                                 <motion.div
                                                     ref={calendarRef}
-                                                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                                                    initial={{ opacity: 0, y: 15, scale: 0.98 }}
                                                     animate={{ opacity: 1, y: 0, scale: 1 }}
-                                                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                                                    className="absolute z-50 left-0 right-0 mt-2 filter drop-shadow-2xl"
+                                                    exit={{ opacity: 0, y: 15, scale: 0.98 }}
+                                                    className="absolute z-50 left-0 right-0 mt-4 filter drop-shadow-[0_25px_50px_rgba(0,0,0,0.15)]"
                                                 >
                                                     <CustomCalendar
                                                         selectedDate={date}
@@ -174,95 +210,139 @@ export default function CreateEvent() {
                                 </div>
                             </div>
 
-                            <div className="space-y-6">
-                                <h3 className="text-xl font-serif text-premium-dark flex items-center gap-2">
-                                    <FileVideo className="w-5 h-5 text-premium-gold" />
-                                    Media & Story
-                                </h3>
-                                <div
-                                    onClick={() => fileInputRef.current?.click()}
-                                    className={`relative w-full aspect-video rounded-2xl border-2 border-dashed flex flex-col items-center justify-center cursor-pointer transition-all p-6 text-center ${videoFile ? 'border-premium-gold bg-premium-gold/5' : 'border-gray-200 hover:border-premium-gold/40 hover:bg-gray-50'
-                                        }`}
-                                >
-                                    {videoFile ? (
-                                        <div className="w-full">
-                                            <FileVideo className="w-10 h-10 text-premium-gold mx-auto mb-3" />
-                                            <p className="text-sm font-bold text-premium-dark break-all line-clamp-2 px-2">
-                                                {videoFile.name}
-                                            </p>
-                                            <p className="text-[10px] text-premium-gold/60 uppercase tracking-widest mt-2 font-bold">Ready to share</p>
-                                        </div>
-                                    ) : (
-                                        <>
-                                            <FileVideo className="w-10 h-10 text-gray-200 mb-2" />
-                                            <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">Upload Video</span>
-                                        </>
-                                    )}
-                                    <input
-                                        ref={fileInputRef}
-                                        type="file"
-                                        accept="video/*"
-                                        onChange={(e) => setVideoFile(e.target.files?.[0] || null)}
-                                        className="hidden"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-2 ml-1">Write Your Message</label>
-                                    <textarea
-                                        value={description}
-                                        onChange={(e) => setDescription(e.target.value)}
-                                        placeholder="Short Message..."
-                                        rows={3}
-                                        className="w-full px-5 py-4 rounded-2xl bg-gray-50 border-transparent focus:bg-white focus:border-premium-gold focus:ring-4 focus:ring-premium-gold/5 outline-none transition-all text-gray-800 font-medium resize-none"
-                                    />
-                                </div>
-                            </div>
-                        </div>
+                            <div className="space-y-10">
+                                <header className="flex items-center gap-4">
+                                    <div className="w-10 h-10 rounded-xl bg-premium-gold/10 flex items-center justify-center">
+                                        <FileVideo className="w-5 h-5 text-premium-gold" />
+                                    </div>
+                                    <h3 className="text-2xl font-serif text-premium-dark">Media & Story</h3>
+                                </header>
 
-                        <div className="mt-8">
-                            <label className="block text-xs font-bold text-gray-400 uppercase tracking-tighter mb-4 text-center">Theme Aesthetic</label>
-                            <div className="flex justify-center gap-6">
-                                {TEMPLATES.map(t => (
-                                    <button
-                                        key={t.id}
-                                        onClick={() => setTemplateId(t.id)}
-                                        className={`group relative p-1 rounded-full border-2 transition-all duration-500 ${templateId === t.id ? 'border-premium-gold scale-110' : 'border-transparent opacity-60'
+                                <div className="space-y-8">
+                                    <div
+                                        onClick={() => fileInputRef.current?.click()}
+                                        className={`group relative w-full aspect-video rounded-3xl border-2 border-dashed flex flex-col items-center justify-center cursor-pointer transition-all overflow-hidden ${videoFile ? 'border-premium-gold/50 bg-white' : 'border-gray-200 hover:border-premium-gold/40 hover:bg-white'
                                             }`}
                                     >
-                                        <div className={`w-10 h-10 rounded-full ${t.color}`} />
-                                    </button>
-                                ))}
+                                        <div className="absolute inset-0 bg-premium-gold/0 group-hover:bg-premium-gold/2 transition-colors" />
+                                        {videoFile ? (
+                                            <div className="relative z-10 p-6 text-center">
+                                                <div className="w-16 h-16 bg-premium-gold/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-premium-gold/20">
+                                                    <FileVideo className="w-8 h-8 text-premium-gold" />
+                                                </div>
+                                                <p className="text-sm font-bold text-premium-dark line-clamp-1 mb-1">
+                                                    {videoFile.name}
+                                                </p>
+                                                <div className="flex items-center justify-center gap-2">
+                                                    <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                                                    <span className="text-[10px] text-green-600 uppercase tracking-widest font-bold">Ready to upload</span>
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <div className="text-center group-hover:scale-105 transition-transform duration-500">
+                                                <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4 border border-gray-100 group-hover:border-premium-gold/20 group-hover:bg-premium-gold/5 transition-colors">
+                                                    <FileVideo className="w-8 h-8 text-gray-200 group-hover:text-premium-gold/50" />
+                                                </div>
+                                                <span className="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-1">Upload Video</span>
+                                                <span className="text-[10px] text-gray-300 font-medium">MP4, MOV up to 50MB</span>
+                                            </div>
+                                        )}
+                                        <input
+                                            ref={fileInputRef}
+                                            type="file"
+                                            accept="video/*"
+                                            onChange={(e) => setVideoFile(e.target.files?.[0] || null)}
+                                            className="hidden"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-3 ml-1">Personal Message</label>
+                                        <textarea
+                                            value={description}
+                                            onChange={(e) => setDescription(e.target.value)}
+                                            placeholder="Write a warm note for your guests..."
+                                            rows={4}
+                                            className="w-full px-6 py-5 rounded-2xl bg-white border border-gray-100 shadow-sm focus:border-premium-gold/50 focus:ring-8 focus:ring-premium-gold/5 outline-none transition-all text-gray-800 font-medium resize-none placeholder:text-gray-300"
+                                        />
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
+                        {/* Theme Aesthetic Refinement */}
+                        <div className="mt-16 pt-12 border-t border-gray-100">
+                            <div className="flex flex-col md:flex-row items-center gap-8 justify-between">
+                                <div className="text-center md:text-left">
+                                    <h4 className="text-sm font-bold text-premium-dark uppercase tracking-widest mb-1">Theme Aesthetic</h4>
+                                    <p className="text-[10px] text-gray-400 uppercase tracking-widest font-medium">Choose a color palette</p>
+                                </div>
+                                <div className="flex items-center gap-8">
+                                    {TEMPLATES.map(t => (
+                                        <button
+                                            key={t.id}
+                                            onClick={() => setTemplateId(t.id)}
+                                            className="group flex flex-col items-center gap-3"
+                                        >
+                                            <div className={`relative p-1.5 rounded-full border-2 transition-all duration-500 scale-100 ${templateId === t.id ? 'border-premium-gold shadow-lg shadow-premium-gold/10' : 'border-transparent'
+                                                }`}>
+                                                <div className={`w-12 h-12 rounded-full ${t.color} shadow-inner transition-transform group-hover:scale-95`} />
+                                                {templateId === t.id && (
+                                                    <motion.div layoutId="active" className="absolute -top-1 -right-1 w-4 h-4 bg-premium-gold rounded-full border-2 border-white flex items-center justify-center">
+                                                        <Check className="w-2 h-2 text-white" />
+                                                    </motion.div>
+                                                )}
+                                            </div>
+                                            <span className={`text-[8px] font-bold uppercase tracking-widest transition-colors ${templateId === t.id ? 'text-premium-gold' : 'text-gray-300'}`}>{t.name.split(' ')[0]}</span>
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Gift Registry Polishing */}
+                        <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6">
                             {GIFTS.map(gift => (
                                 <button
                                     key={gift.id}
                                     onClick={() => toggleGift(gift.id)}
-                                    className={`p-4 rounded-3xl border-2 transition-all ${selectedGifts.includes(gift.id) ? 'border-premium-gold bg-premium-gold/5' : 'border-transparent bg-gray-50'
+                                    className={`relative group p-6 rounded-[2.5rem] border-2 transition-all duration-500 text-center ${selectedGifts.includes(gift.id)
+                                        ? 'border-premium-gold bg-white shadow-xl shadow-premium-gold/5'
+                                        : 'border-transparent bg-white shadow-sm hover:shadow-md'
                                         }`}
                                 >
-                                    <span className="text-2xl block mb-1">{gift.icon}</span>
-                                    <span className="text-[10px] font-bold uppercase">{gift.name}</span>
+                                    <span className={`text-4xl block mb-3 transition-transform duration-500 ${selectedGifts.includes(gift.id) ? 'scale-110 rotate-3' : 'group-hover:scale-105'}`}>{gift.icon}</span>
+                                    <span className={`text-[9px] font-black uppercase tracking-[0.2em] transition-colors ${selectedGifts.includes(gift.id) ? 'text-premium-gold' : 'text-gray-400'}`}>{gift.name}</span>
+                                    {selectedGifts.includes(gift.id) && (
+                                        <div className="absolute top-4 right-6 text-premium-gold">
+                                            <Check className="w-3 h-3" />
+                                        </div>
+                                    )}
                                 </button>
                             ))}
                         </div>
 
-                        <div className="mt-16 text-center">
+                        <div className="mt-20">
                             <button
                                 disabled={isSharing || !eventName || !hostName || !date}
                                 onClick={handleShare}
-                                className="group relative px-20 py-6 bg-premium-dark text-white rounded-full font-bold text-lg overflow-hidden transition-all hover:scale-105 active:scale-95 shadow-2xl disabled:opacity-50"
+                                className="w-full md:w-auto min-w-[300px] h-[72px] bg-premium-dark text-white rounded-4xl font-bold text-lg overflow-hidden transition-all hover:scale-[1.02] active:scale-95 shadow-2xl disabled:opacity-30 disabled:hover:scale-100 flex items-center justify-center mx-auto"
                             >
-                                <div className="flex items-center justify-center gap-3 relative z-10 font-serif tracking-widest uppercase">
-                                    {isSharing ? 'Sharing...' : 'Generate & Share'}
+                                <div className="flex items-center justify-center gap-4 relative z-10 font-serif tracking-[0.2em] uppercase">
+                                    {isSharing ? (
+                                        <div className="flex items-center gap-2">
+                                            <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                                            <span>Processing...</span>
+                                        </div>
+                                    ) : 'Generate & Share'}
                                 </div>
                             </button>
+                            <p className="text-[10px] text-gray-400 uppercase tracking-widest font-bold mt-6 text-center opacity-60">Ready to create a lifetime memory</p>
                         </div>
                     </div>
                 </div>
             </motion.div>
+
 
             <AnimatePresence>
                 {showShareModal && (
