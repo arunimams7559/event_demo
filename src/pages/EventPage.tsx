@@ -5,11 +5,11 @@ import { Calendar, Gift, ArrowLeft, User, Quote } from 'lucide-react';
 import { decodeEventData, type EventData } from '../utils/urlHelper';
 import Logo from '../components/Logo';
 
-const GIFTS_MAP: Record<string, { name: string, icon: string }> = {
-    watch: { name: 'Luxury Watch', icon: '⌚' },
-    travel: { name: 'Travel Voucher', icon: '✈️' },
-    home: { name: 'Home Decor', icon: '🏠' },
-    dinner: { name: 'Romantic Dinner', icon: '🕯️' },
+const GIFTS_MAP: Record<string, { name: string, icon: string, label: string }> = {
+    watch: { name: 'Luxury Watch', icon: '⌚', label: 'Timeless' },
+    travel: { name: 'Travel Voucher', icon: '✈️', label: 'Discovery' },
+    home: { name: 'Home Decor', icon: '🏠', label: 'Sanctuary' },
+    dinner: { name: 'Romantic Dinner', icon: '🕯️', label: 'Exquisite' },
 };
 
 const THEMES: Record<string, { bg: string, accent: string, text: string, card: string }> = {
@@ -112,12 +112,23 @@ export default function EventPage() {
                                 const gift = GIFTS_MAP[id];
                                 return (
                                     <motion.div
-                                        whileHover={{ y: -10, scale: 1.02 }}
+                                        whileHover={{ y: -8, scale: 1.02 }}
                                         key={id}
-                                        className={`${theme.card} backdrop-blur-md p-10 rounded-[2.5rem] shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] text-center border border-white/40 transition-shadow hover:shadow-2xl`}
+                                        className={`${theme.card} backdrop-blur-xl p-10 rounded-[2.5rem] shadow-sm text-center border-2 transition-all duration-700 hover:shadow-xl group relative overflow-hidden ${theme.accent.replace('text', 'border')}/30 hover:${theme.accent.replace('text', 'border')}/60 min-h-[220px] flex flex-col items-center justify-center`}
                                     >
-                                        <span className="text-5xl mb-6 block drop-shadow-sm">{gift?.icon}</span>
-                                        <span className="text-[10px] uppercase tracking-widest font-bold opacity-60">{gift?.name}</span>
+                                        <div className="mb-6">
+                                            <span className="text-6xl block transition-transform duration-700 group-hover:scale-110">
+                                                {gift?.icon}
+                                            </span>
+                                        </div>
+                                        <div className="space-y-1 relative z-10">
+                                            <span className={`text-base uppercase tracking-[0.3em] font-black block ${theme.text} opacity-90 leading-tight`}>
+                                                {gift?.name}
+                                            </span>
+                                            <span className={`text-[10px] uppercase tracking-widest font-bold block ${theme.accent} opacity-40 group-hover:opacity-60 transition-opacity`}>
+                                                {gift?.label}
+                                            </span>
+                                        </div>
                                     </motion.div>
                                 );
                             })}

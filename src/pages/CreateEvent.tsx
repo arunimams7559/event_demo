@@ -13,10 +13,10 @@ const TEMPLATES = [
 ];
 
 const GIFTS = [
-    { id: 'watch', name: 'Luxury Watch', icon: '⌚' },
-    { id: 'travel', name: 'Travel Voucher', icon: '✈️' },
-    { id: 'home', name: 'Home Decor', icon: '🏠' },
-    { id: 'dinner', name: 'Romantic Dinner', icon: '🕯️' },
+    { id: 'watch', name: 'Luxury Watch', icon: '⌚', label: 'Timeless' },
+    { id: 'travel', name: 'Travel Voucher', icon: '✈️', label: 'Discovery' },
+    { id: 'home', name: 'Home Decor', icon: '🏠', label: 'Sanctuary' },
+    { id: 'dinner', name: 'Romantic Dinner', icon: '🕯️', label: 'Exquisite' },
 ];
 
 export default function CreateEvent() {
@@ -33,6 +33,7 @@ export default function CreateEvent() {
     const [isCalendarOpen, setIsCalendarOpen] = useState(false);
     const [generatedUrl, setGeneratedUrl] = useState('');
     const [copied, setCopied] = useState(false);
+    const [showInspiration, setShowInspiration] = useState(false);
 
     const fileInputRef = useRef<HTMLInputElement>(null);
     const calendarRef = useRef<HTMLDivElement>(null);
@@ -127,17 +128,27 @@ export default function CreateEvent() {
                         </div>
 
                         <div className="z-10 pt-12">
-                            <div className="glass-dark p-6 rounded-4xl border-white/10">
-                                <div className="flex -space-x-3 mb-4">
-                                    {[1, 2, 3].map(i => (
-                                        <div key={i} className="w-10 h-10 rounded-full border-2 border-premium-dark bg-premium-gold/20 backdrop-blur-sm" />
-                                    ))}
-                                    <div className="w-10 h-10 rounded-full border-2 border-premium-dark bg-white/10 backdrop-blur-sm flex items-center justify-center text-[10px] font-bold">
-                                        +50
+                            <motion.button
+                                whileHover={{ scale: 1.02 }}
+                                whileTap={{ scale: 0.98 }}
+                                onClick={() => setShowInspiration(true)}
+                                className="w-full text-left"
+                            >
+                                <div className="glass-dark p-6 rounded-4xl border-white/10 hover:border-premium-gold/30 transition-colors cursor-pointer group/trust">
+                                    <div className="flex -space-x-3 mb-4">
+                                        {[1, 2, 3].map(i => (
+                                            <div key={i} className="w-10 h-10 rounded-full border-2 border-premium-dark bg-premium-gold/20 backdrop-blur-sm" />
+                                        ))}
+                                        <div className="w-10 h-10 rounded-full border-2 border-premium-dark bg-white/10 backdrop-blur-sm flex items-center justify-center text-[10px] font-bold">
+                                            +50
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center justify-between">
+                                        <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-premium-gold/80">Trusted by modern couples</p>
+                                        <ExternalLink className="w-3 h-3 text-premium-gold opacity-0 group-hover/trust:opacity-100 transition-opacity" />
                                     </div>
                                 </div>
-                                <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-premium-gold/80">Trusted by modern couples</p>
-                            </div>
+                            </motion.button>
                         </div>
                     </div>
 
@@ -299,45 +310,76 @@ export default function CreateEvent() {
                                 </div>
                             </div>
                         </div>
-
-                        {/* Gift Registry Polishing */}
-                        <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6">
-                            {GIFTS.map(gift => (
-                                <button
-                                    key={gift.id}
-                                    onClick={() => toggleGift(gift.id)}
-                                    className={`relative group p-6 rounded-[2.5rem] border-2 transition-all duration-500 text-center ${selectedGifts.includes(gift.id)
-                                        ? 'border-premium-gold bg-white shadow-xl shadow-premium-gold/5'
-                                        : 'border-transparent bg-white shadow-sm hover:shadow-md'
-                                        }`}
-                                >
-                                    <span className={`text-4xl block mb-3 transition-transform duration-500 ${selectedGifts.includes(gift.id) ? 'scale-110 rotate-3' : 'group-hover:scale-105'}`}>{gift.icon}</span>
-                                    <span className={`text-[9px] font-black uppercase tracking-[0.2em] transition-colors ${selectedGifts.includes(gift.id) ? 'text-premium-gold' : 'text-gray-400'}`}>{gift.name}</span>
-                                    {selectedGifts.includes(gift.id) && (
-                                        <div className="absolute top-4 right-6 text-premium-gold">
-                                            <Check className="w-3 h-3" />
-                                        </div>
-                                    )}
-                                </button>
-                            ))}
-                        </div>
-
-                        <div className="mt-20">
-                            <button
-                                disabled={isSharing || !eventName || !hostName || !date}
-                                onClick={handleShare}
-                                className="w-full md:w-auto min-w-[300px] h-[72px] bg-premium-dark text-white rounded-4xl font-bold text-lg overflow-hidden transition-all hover:scale-[1.02] active:scale-95 shadow-2xl disabled:opacity-30 disabled:hover:scale-100 flex items-center justify-center mx-auto"
-                            >
-                                <div className="flex items-center justify-center gap-4 relative z-10 font-serif tracking-[0.2em] uppercase">
-                                    {isSharing ? (
-                                        <div className="flex items-center gap-2">
-                                            <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
-                                            <span>Processing...</span>
-                                        </div>
-                                    ) : 'Generate & Share'}
+                        {/* Gift Registry Section */}
+                        <div className="mt-20 pt-12 border-t border-gray-100">
+                            <header className="flex flex-col md:flex-row items-center gap-6 justify-between mb-12">
+                                <div className="text-center md:text-left">
+                                    <h3 className="text-2xl font-serif text-premium-dark mb-2">Gift Registry</h3>
+                                    <p className="text-[10px] text-gray-400 uppercase tracking-widest font-bold">Suggestions for your celebration</p>
                                 </div>
-                            </button>
-                            <p className="text-[10px] text-gray-400 uppercase tracking-widest font-bold mt-6 text-center opacity-60">Ready to create a lifetime memory</p>
+                                <div className="px-4 py-2 bg-premium-gold/5 rounded-full border border-premium-gold/10">
+                                    <span className="text-[10px] text-premium-gold font-black uppercase tracking-widest">{selectedGifts.length} selected</span>
+                                </div>
+                            </header>
+
+                            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                                {GIFTS.map(gift => (
+                                    <motion.button
+                                        whileHover={{ y: -5, scale: 1.02 }}
+                                        whileTap={{ scale: 0.98 }}
+                                        key={gift.id}
+                                        onClick={() => toggleGift(gift.id)}
+                                        className={`relative group p-10 rounded-[2.5rem] border-2 transition-all duration-500 text-center flex flex-col items-center justify-center min-h-[220px] ${selectedGifts.includes(gift.id)
+                                            ? 'border-premium-gold bg-white shadow-xl shadow-premium-gold/10'
+                                            : 'border-premium-gold/20 bg-white hover:border-premium-gold/50 shadow-sm hover:shadow-lg'
+                                            }`}
+                                    >
+                                        <div className="mb-6">
+                                            <span className={`text-5xl block transition-transform duration-500 ${selectedGifts.includes(gift.id) ? 'scale-110' : 'scale-100 group-hover:scale-110'}`}>
+                                                {gift.icon}
+                                            </span>
+                                        </div>
+                                        <div className="space-y-1">
+                                            <span className={`text-[11px] font-black uppercase tracking-[0.3em] block leading-tight max-w-[120px] mx-auto ${selectedGifts.includes(gift.id) ? 'text-premium-gold' : 'text-premium-dark'}`}>
+                                                {gift.name}
+                                            </span>
+                                            <span className={`text-[9px] uppercase tracking-widest font-bold opacity-30 block`}>
+                                                {gift.label}
+                                            </span>
+                                        </div>
+
+                                        {selectedGifts.includes(gift.id) && (
+                                            <motion.div
+                                                initial={{ scale: 0, opacity: 0 }}
+                                                animate={{ scale: 1, opacity: 1 }}
+                                                className="absolute top-6 right-8 text-premium-gold"
+                                            >
+                                                <div className="w-6 h-6 rounded-full bg-premium-gold/10 flex items-center justify-center border border-premium-gold/20">
+                                                    <Check className="w-3.5 h-3.5" />
+                                                </div>
+                                            </motion.div>
+                                        )}
+                                    </motion.button>
+                                ))}
+                            </div>
+
+                            <div className="mt-20">
+                                <button
+                                    disabled={isSharing || !eventName || !hostName || !date}
+                                    onClick={handleShare}
+                                    className="w-full md:w-auto min-w-[300px] h-[72px] bg-premium-dark text-white rounded-4xl font-bold text-lg overflow-hidden transition-all hover:scale-[1.02] active:scale-95 shadow-2xl disabled:opacity-30 disabled:hover:scale-100 flex items-center justify-center mx-auto"
+                                >
+                                    <div className="flex items-center justify-center gap-4 relative z-10 font-serif tracking-[0.2em] uppercase">
+                                        {isSharing ? (
+                                            <div className="flex items-center gap-2">
+                                                <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                                                <span>Processing...</span>
+                                            </div>
+                                        ) : 'Generate & Share'}
+                                    </div>
+                                </button>
+                                <p className="text-[10px] text-gray-400 uppercase tracking-widest font-bold mt-6 text-center opacity-60">Ready to create a lifetime memory</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -414,6 +456,102 @@ export default function CreateEvent() {
                                         Other Share Options
                                     </button>
                                 )}
+                            </div>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
+
+            <AnimatePresence>
+                {showInspiration && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={() => setShowInspiration(false)}
+                            className="absolute inset-0 bg-premium-dark/90 backdrop-blur-xl"
+                        />
+                        <motion.div
+                            initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: 50, scale: 0.9 }}
+                            className="relative w-full max-w-2xl bg-white rounded-[3rem] overflow-hidden shadow-2xl"
+                        >
+                            <div className="absolute top-6 right-6 z-10">
+                                <button
+                                    onClick={() => setShowInspiration(false)}
+                                    className="p-3 bg-gray-100 hover:bg-gray-200 rounded-full transition-colors"
+                                >
+                                    <X className="w-5 h-5 text-gray-500" />
+                                </button>
+                            </div>
+
+                            <div className="p-12">
+                                <header className="text-center mb-12">
+                                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-premium-gold/10 rounded-full mb-6">
+                                        <div className="w-1 h-1 rounded-full bg-premium-gold animate-pulse" />
+                                        <span className="text-[10px] font-bold uppercase tracking-widest text-premium-gold">Featured Stories</span>
+                                    </div>
+                                    <h3 className="text-4xl font-serif text-premium-dark mb-4">Modern Inspirations</h3>
+                                    <p className="text-gray-400 font-light max-w-md mx-auto">See how other couples are using Lumière & Lace to craft their perfect moments.</p>
+                                </header>
+
+                                <div className="grid gap-6">
+                                    {[
+                                        { names: "Arjun & Sneha", type: "Wedding", location: "Royal Palace, Jaipur" },
+                                        { names: "Rohan & Meera", type: "Engagement", location: "Coastal Villa, Goa" }
+                                    ].map((story, i) => (
+                                        <div key={i} className="group p-6 rounded-3xl border border-gray-100 hover:border-premium-gold/30 hover:bg-premium-gold/5 transition-all flex items-center justify-between">
+                                            <div className="flex items-center gap-6">
+                                                <div className="w-16 h-16 rounded-2xl bg-gray-100 overflow-hidden flex items-center justify-center font-serif text-2xl text-premium-gold">
+                                                    {story.names[0]}
+                                                </div>
+                                                <div>
+                                                    <h4 className="text-lg font-serif text-premium-dark mb-1">{story.names}</h4>
+                                                    <div className="flex items-center gap-3 text-[10px] uppercase tracking-widest font-bold text-gray-400">
+                                                        <span>{story.type}</span>
+                                                        <span className="w-1 h-1 rounded-full bg-gray-300" />
+                                                        <span>{story.location}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button
+                                                onClick={() => {
+                                                    const demoData = encodeEventData({
+                                                        names: story.names,
+                                                        hostName: "Lumière Team",
+                                                        date: new Date().toISOString(),
+                                                        templateId: 'classic',
+                                                        gifts: ['watch', 'travel'],
+                                                        description: `A beautiful ${story.type.toLowerCase()} celebration at ${story.location}.`
+                                                    });
+                                                    navigate(`/intro/${demoData}`);
+                                                }}
+                                                className="p-4 rounded-2xl bg-premium-dark text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                                            >
+                                                <ExternalLink className="w-4 h-4" />
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                <div className="mt-12 bg-gray-50 rounded-4xl p-8 flex items-center justify-around border border-gray-100">
+                                    <div className="text-center">
+                                        <div className="text-2xl font-serif text-premium-dark mb-1">5,000+</div>
+                                        <div className="text-[10px] uppercase tracking-widest font-bold text-gray-400">Events Created</div>
+                                    </div>
+                                    <div className="w-px h-10 bg-gray-200" />
+                                    <div className="text-center">
+                                        <div className="text-2xl font-serif text-premium-dark mb-1">98%</div>
+                                        <div className="text-[10px] uppercase tracking-widest font-bold text-gray-400">Happy Couples</div>
+                                    </div>
+                                    <div className="w-px h-10 bg-gray-200" />
+                                    <div className="text-center">
+                                        <div className="text-2xl font-serif text-premium-dark mb-1">24/7</div>
+                                        <div className="text-[10px] uppercase tracking-widest font-bold text-gray-400">Luxury Support</div>
+                                    </div>
+                                </div>
                             </div>
                         </motion.div>
                     </div>
